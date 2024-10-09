@@ -14,6 +14,12 @@ This is a basic introduction to Big Data with beginner exercises, for multiple f
 **Table of Contents**
 
 <!-- toc -->
+
+- [Future Work](#future-work)
+- [Contribute](#contribute)
+- [Backers](#backers)
+- [License](#license)
+
 <!-- tocstop -->
 
 ## Future Work
