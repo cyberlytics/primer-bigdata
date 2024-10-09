@@ -1,0 +1,10 @@
+== EXASOL ==
+
+https://github.com/exasol/docker-db
+https://hub.docker.com/r/exasol/docker-db
+
+# Start:
+> docker volume create exa_volume
+> docker run --name exasoldb  -p 127.0.0.1:9563:8563 --detach --privileged --stop-timeout 120 -v exa_volume:/exa exasol/docker-db
+# Stopp:
+> docker exec -ti exasoldb dwad_client stop-wait DB1
