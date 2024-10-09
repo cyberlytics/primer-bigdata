@@ -24,14 +24,10 @@ I plan to translate this awesome list from German into English at some point.
 
 What did I miss? Anything you recommend?
 
-Contributions are most welcome, please adhere to the contribution guidelines and ensure your pull request adheres to the following guidelines:
+Contributions are most welcome, please ensure your pull request adheres to the following guidelines:
 
-- Make an individual pull request for each suggestion.
-- Keep descriptions short and simple.
-- Check your spelling and grammar.
 - Make sure your text editor is set to remove trailing whitespace.
 - Try to make your Pull request and title as descriptive as possible.
-- New categories or improvements to the existing categorization are welcome.
 
 Thank you for your suggestions!
 
