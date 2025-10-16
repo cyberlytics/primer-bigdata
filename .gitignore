@@ -860,3 +860,4 @@ primer-bigdata.7z
 SZ?
 *-result.txt
 *-result.csv
+/hadoop-mapreduce-wordcount-bibles/data

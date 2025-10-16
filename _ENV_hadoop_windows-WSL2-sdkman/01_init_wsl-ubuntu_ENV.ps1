@@ -1,13 +1,13 @@
 # Ensure we can run everything
 Set-ExecutionPolicy Bypass -Scope Process -Force
 
+Write-Output "PowerShell Version: $($PSVersionTable.PSVersion)"
+Import-Module "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1" -ErrorAction SilentlyContinue
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8 # Set code page to UTF-8
+
 wsl --setdefault 'Ubuntu-24.04'
 
-$linuxUsername = Read-Host "Please enter your Ubuntu Username (chosen during install):"
-Write-Output "PowerShell: You entered: $linuxUsername"
-bash -c "echo 'Bash: You entered $linuxUsername'"
-Write-Output "`nPress ENTER to continue..."
-cmd /c Pause | Out-Null
+Remove-Item -Path "C:\progs\chocolatey\bin\bash.exe" -Force
 
 # some version infos about distro:
 bash -c "cat /etc/os-release; echo; lsb_release -a; echo; hostnamectl; echo; uname -r; echo;"
@@ -18,15 +18,14 @@ bash -c "cat /etc/os-release; echo; lsb_release -a; echo; hostnamectl; echo; una
 # #########
 
 # change ubuntu to allow sudo without password prompt:
-#$commandString = 'echo \"' + $linuxUsername +' ALL=(ALL) NOPASSWD:ALL\" | sudo tee -a /etc/sudoers.d/'+ $linuxUsername
-#bash -c $commandString
-bash -c "echo '$linuxUsername ALL=(ALL) NOPASSWD:ALL' | sudo tee -a /etc/sudoers.d/$linuxUsername"
+bash -c 'echo \"`whoami` ALL=(ALL) NOPASSWD:ALL\" | sudo tee /etc/sudoers.d/`whoami` '
+bash -c 'grep -H '' /etc/sudoers.d/`whoami` '
 
 # recommended: set DNS/nameserver to idiot proof 1.1.1.1 (or 8.8.8.8)
 bash -c 'echo -e \"\\n[network]\\ngenerateResolvConf = false\\n\\n[boot]\\ncommand = echo \\\"nameserver 1.1.1.1\\\" > /etc/resolv.conf\" | sudo tee -a /etc/wsl.conf'
-bash -c "cat /etc/wsl.conf"
+bash -c "grep -H '' /etc/wsl.conf"
 wsl --shutdown
-bash -c "cat /etc/resolv.conf"
+bash -c "grep -H '' /etc/resolv.conf"
 
 # check network/DNS from within ubuntu:
 bash -c "ping -c 1 archive.ubuntu.com"
@@ -74,6 +73,13 @@ bash -c "sudo DEBIAN_FRONTEND=noninteractive sudo apt-get update"
 bash -c "sudo DEBIAN_FRONTEND=noninteractive apt-get -y install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin"
 bash -c "sudo docker run hello-world"
 
+bash -c "echo 'docker ps -a -q' > ~/docker-ps-any.sh && chmod 777 ~/docker-ps-any.sh"
+bash -c "grep -H '' ~/docker-ps-any.sh"
+bash -c "echo 'docker stop \`$(docker ps -a -q)' > ~/docker-stop-any.sh && chmod 777 ~/docker-stop-any.sh"
+bash -c "grep -H '' ~/docker-stop-any.sh"
+bash -c "echo 'docker rm   \`$(docker ps -a -q)' > ~/docker-rm-any.sh   && chmod 777 ~/docker-rm-any.sh"
+bash -c "grep -H '' ~/docker-rm-any.sh"
+
 # #########
 # Optional: recommended SSH initialization
 # #########
@@ -81,9 +87,10 @@ bash -c "sudo docker run hello-world"
 bash -c "sudo DEBIAN_FRONTEND=noninteractive mkdir ~/.ssh"
 bash -c "sudo DEBIAN_FRONTEND=noninteractive ssh-keygen -t rsa -P \'\' -f ~/.ssh/id_rsa"
 bash -c "cat ~/.ssh/id_rsa.pub | sudo tee -a ~/.ssh/authorized_keys"
+bash -c "grep -H '' ~/.ssh/authorized_keys"
 bash -c "sudo DEBIAN_FRONTEND=noninteractive chmod 0600 ~/.ssh/authorized_keys"
 
-bash -c "sudo DEBIAN_FRONTEND=noninteractive chown $linuxUsername:$linuxUsername -R ~/.ssh/"
+bash -c 'sudo DEBIAN_FRONTEND=noninteractive chown `whoami`:`whoami` -R ~/.ssh/'
 bash -c "sudo DEBIAN_FRONTEND=noninteractive sudo service ssh restart"
 
 # #########
@@ -92,8 +99,8 @@ bash -c "sudo DEBIAN_FRONTEND=noninteractive sudo service ssh restart"
 bash -c "curl -s 'https://get.sdkman.io' | bash"
 bash -c "echo 'source ~/.sdkman/bin/sdkman-init.sh' >> ~/.bashrc"
 bash -c "echo 'source ~/.sdkman/bin/sdkman-init.sh' >> ~/.zshrc"
-bash -c "cat ~/.bashrc"
-bash -c "cat ~/.zshrc"
+bash -c "grep -H '' ~/.bashrc"
+bash -c "grep -H '' ~/.zshrc"
 
 # #########
 # Hadoop requires Java!

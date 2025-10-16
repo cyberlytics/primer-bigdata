@@ -1,6 +1,10 @@
 # Ensure we can run everything
 Set-ExecutionPolicy Bypass -Scope Process -Force
 
+Write-Output "PowerShell Version: $($PSVersionTable.PSVersion)"
+Import-Module "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1" -ErrorAction SilentlyContinue
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8 # Set code page to UTF-8
+
 iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
 RefreshEnv
 

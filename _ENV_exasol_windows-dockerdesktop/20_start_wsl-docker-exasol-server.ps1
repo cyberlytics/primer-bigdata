@@ -1,6 +1,8 @@
 # Run PowerShell Script as Administrator in the Same Directory as Original Script
 Set-Location -Path $PSScriptRoot
 
+if ((Get-Service -Name com.docker.service).Status -ne 'Running') { Start-Service -Name com.docker.service }
+
 docker start exasoldb
 docker logs exasoldb
 

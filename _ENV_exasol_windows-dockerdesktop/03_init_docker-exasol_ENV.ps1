@@ -1,6 +1,8 @@
 # Ensure we can run everything
 Set-ExecutionPolicy Bypass -Scope Process -Force
 
+if ((Get-Service -Name com.docker.service).Status -ne 'Running') { Start-Service -Name com.docker.service }
+
 docker pull exasol/docker-db
 
 docker volume create exa_volume

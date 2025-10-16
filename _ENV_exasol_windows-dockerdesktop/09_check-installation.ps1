@@ -5,9 +5,17 @@ Write-Output "PowerShell Version: $($PSVersionTable.PSVersion)"
 Import-Module "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1" -ErrorAction SilentlyContinue
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8 # Set code page to UTF-8
 
-bash -c "source ~/.sdkman/bin/sdkman-init.sh; sdk install hadoop"
+Write-Output "`n==== DOCKER ===="
+docker --version
 
-Write-Host "`nFINISHED with preparing Hadoop and Spark installation inside WSL2/Ubuntu."
-Write-Host "(You can re-enter ubuntu with PowerShell-command 'bash'!)"
-Write-Output "Press ENTER to continue..."
+Write-Output "`n==== EXASOL IMAGE ===="
+if ($(docker images -q exasol/docker-db)) {
+    Write-Host "[OK] exasol/docker-db image is available."
+}
+else {
+	Write-Host "[ERROR] exasol/docker-db image is NOT available" -ForegroundColor Red
+}
+
+
+Write-Output "`nPress ENTER to continue..."
 cmd /c Pause | Out-Null

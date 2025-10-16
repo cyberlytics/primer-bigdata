@@ -32,8 +32,9 @@ rm *.pyc 2> /dev/null
 #rm -rf $DIR/SZ?*
 
 echo ""
-echo "== Resulting WordCount from $DIR/data/allbibles-result.txt =="
+echo "== Resulting WordCount, first and last10 lines, from $DIR/data/allbibles-result.txt =="
 head -n 10 $DIR/data/allbibles-result.txt
+echo "(...)"
 tail -n 10 $DIR/data/allbibles-result.txt
 echo ""
 

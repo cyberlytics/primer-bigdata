@@ -1,2 +1,2 @@
 @echo off
-powershell.exe -ExecutionPolicy ByPass -noprofile -NoExit  -file "%~dpn0.ps1"
+powershell.exe -ExecutionPolicy ByPass -noprofile -file "%~dpn0.ps1"

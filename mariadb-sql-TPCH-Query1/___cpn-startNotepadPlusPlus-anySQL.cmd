@@ -1,10 +1,14 @@
 @echo off
+setlocal enableDelayedExpansion
 
 rem ***************************************************************************
 rem * author: Christoph P. Neumann
 rem ***************************************************************************
-cd /d "%~dp0"
+cd /D "%~dp0"
 
-cmd /D/C python "%~dpn0.py"
+set EXEC=NOTEPAD++.EXE
 
-pause
+echo Going to open CMD, pwsh:PS1, bash:SH
+rem echo Press ENTER to continue...
+rem pause
+for /R %%F in (*.sql) do ("%EXEC%" "%%~dpnxF")
